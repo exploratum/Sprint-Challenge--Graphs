@@ -169,25 +169,29 @@ while len(traversalGraph) != len(roomGraph):
 
              
 
+        # # if found last then stop
+        # if len(traversalGraph) == len(roomGraph):
+        #     break
 
+        # # player now in room with one or more unexplored exits - choose a direction 
+        # unvisited_directions = get_directions_to_univisited_rooms(player)
+        # if unvisited_directions:
 
-        # player now in room with one or more unexplored exits - choose a direction 
-        unvisited_directions = get_directions_to_univisited_rooms(player)
-        chosen_direction = random.choice(unvisited_directions)
+        #     chosen_direction = random.choice(unvisited_directions)
 
-        # update current room in traversal graph with chosen direction
-        room_id = player.currentRoom.id
-        next_room_id = player.currentRoom.getRoomInDirection(chosen_direction).id
-        traversalGraph[room_id][chosen_direction] = next_room_id
+        #     # update current room in traversal graph with chosen direction
+        #     room_id = player.currentRoom.id
+        #     next_room_id = player.currentRoom.getRoomInDirection(chosen_direction).id
+        #     traversalGraph[room_id][chosen_direction] = next_room_id
 
-        #move player to next room and update graph
-        player.travel(chosen_direction)
-        addPlayerRoomToGraph(player)
-        traversalGraph[next_room_id] = {}
-        traversalGraph[next_room_id][reverse_path[chosen_direction]] = room_id
+        #     #move player to next room and update graph
+        #     player.travel(chosen_direction)
+        #     addPlayerRoomToGraph(player)
+        #     traversalGraph[next_room_id] = {}
+        #     traversalGraph[next_room_id][reverse_path[chosen_direction]] = room_id
 
-        #update travel path
-        traversalPath.append(chosen_direction)
+        #     #update travel path
+        #     traversalPath.append(chosen_direction)
 
 
 
