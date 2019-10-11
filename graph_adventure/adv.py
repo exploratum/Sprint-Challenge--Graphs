@@ -22,13 +22,16 @@ player = Player("Name", world.startingRoom)
 
 # FILL THIS IN
 
-
-
 traversalPath = []
 traversalGraph = {}
 
 # helps finding the way back
 reverse_path = {'n':'s', 's':'n', 'e':'w', 'w':'e'}
+
+
+##########################################################
+#       class Queue implementation                       #
+##########################################################
 
 class Queue():
     def __init__(self):
@@ -43,7 +46,10 @@ class Queue():
     def size(self):
         return len(self.queue)   
 
-# Add room entry to traversalGraph with default directions values = '?'
+###################################################################################################
+#       helper function:Add room entry to traversalGraph with default directions values = '?'     #
+###################################################################################################
+
 def addPlayerRoomToGraph(player):
     directions = player.currentRoom.getExits()
     traversalGraph[player.currentRoom.id] = {}
@@ -51,7 +57,10 @@ def addPlayerRoomToGraph(player):
     for direction in directions:
         traversalGraph[player.currentRoom.id][direction] = '?'
 
-# Get directions to rooms not yet visited
+###################################################################################################
+#                        helper function: Get directions to rooms not yet visited                 #
+###################################################################################################
+
 def get_directions_to_univisited_rooms(player):
 
     possible_directions = player.currentRoom.getExits()
@@ -63,6 +72,11 @@ def get_directions_to_univisited_rooms(player):
             unvisited_directions.append(direction)
 
     return unvisited_directions
+
+
+###################################################################################################
+#                                   Depth First traversal                                         #
+###################################################################################################
 
 def dft_visit_rooms_as_far_as_you_can(player):
 
@@ -91,7 +105,9 @@ def dft_visit_rooms_as_far_as_you_can(player):
         else:
             break
 
-
+###################################################################################################
+#                                   Breath First traversal                                        #
+###################################################################################################
 def bfs_closest_unexplored_room(player):
     qq = Queue()
     id = player.currentRoom.id
@@ -121,6 +137,10 @@ def bfs_closest_unexplored_room(player):
     return []
 
 
+###################################################################################################
+#                                   Startin main process                                         #
+###################################################################################################
+
 # initialize travelGraph with starting Room
 addPlayerRoomToGraph(player)
 
@@ -133,7 +153,7 @@ while len(traversalGraph) != len(roomGraph):
     if len(traversalGraph) == len(roomGraph):
         break
     
-    # otherwise find closest unexplored room
+    # otherwise find closest unexplored room and move there
     else:
         path_to_closest_unexplored = bfs_closest_unexplored_room(player)
 
@@ -165,46 +185,7 @@ while len(traversalGraph) != len(roomGraph):
                     else:
                         player.travel(direction)
                         traversalPath.append(direction)
-                        
-
-             
-
-        # # if found last then stop
-        # if len(traversalGraph) == len(roomGraph):
-        #     break
-
-        # # player now in room with one or more unexplored exits - choose a direction 
-        # unvisited_directions = get_directions_to_univisited_rooms(player)
-        # if unvisited_directions:
-
-        #     chosen_direction = random.choice(unvisited_directions)
-
-        #     # update current room in traversal graph with chosen direction
-        #     room_id = player.currentRoom.id
-        #     next_room_id = player.currentRoom.getRoomInDirection(chosen_direction).id
-        #     traversalGraph[room_id][chosen_direction] = next_room_id
-
-        #     #move player to next room and update graph
-        #     player.travel(chosen_direction)
-        #     addPlayerRoomToGraph(player)
-        #     traversalGraph[next_room_id] = {}
-        #     traversalGraph[next_room_id][reverse_path[chosen_direction]] = room_id
-
-        #     #update travel path
-        #     traversalPath.append(chosen_direction)
-
-
-
-
-
-
-
-
-
-
-
-
-
+                    
 
 
 # TRAVERSAL TEST
